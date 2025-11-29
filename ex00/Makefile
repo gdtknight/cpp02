@@ -1,4 +1,4 @@
-NAME = ex00
+NAME = fixed00
 SRCS = main.cpp Fixed.cpp
 HEADERS = Fixed.hpp
 CXX = c++

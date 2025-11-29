@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 21:39:02 by yoshin            #+#    #+#             */
-/*   Updated: 2025/10/27 18:59:10 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/11/29 17:51:21 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 #ifndef FIXED_HPP
 #define FIXED_HPP
-
-#include <cstddef>
 
 /*
  * • Public members:

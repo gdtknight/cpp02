@@ -1,6 +1,6 @@
-NAME = ex00
-SRCS = main.cpp Zombie.cpp newZombie.cpp randomChump.cpp
-HEADERS = Zombie.hpp
+NAME = fixed02
+SRCS = main.cpp Fixed.cpp
+HEADERS = Fixed.hpp
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 

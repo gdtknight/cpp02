@@ -5,56 +5,63 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/25 21:39:02 by yoshin            #+#    #+#             */
-/*   Updated: 2025/10/27 18:59:10 by yoshin           ###   ########.fr       */
+/*   Created: 2025/11/27 14:08:05 by yoshin            #+#    #+#             */
+/*   Updated: 2025/11/27 14:08:05 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma once
 
 #ifndef FIXED_HPP
 #define FIXED_HPP
 
-#include <cstddef>
-
-/*
- * • Public members:
- *   ◦ A default constructor that initializes the fixed-point number value to 0.
- *   ◦ A copy constructor.
- *   ◦ A copy assignment operator overload.
- *   ◦ A destructor.
- *   ◦ A member function int getRawBits( void ) const;
- *     that returns the raw value of the fixed-point value.
- *   ◦ A member function void setRawBits( int const raw );
- *     that sets the raw value of the fixed-point number.
- *
- * • Private members:
- *   ◦ An integer to store the fixed-point number value.
- *   ◦ A static constant integer to store the number of fractional bits.
- *     Its value will always be the integer literal 8.
- *
- */
+#include <iostream>
 
 class Fixed {
 public:
-  Fixed(void);
-  Fixed(Fixed const &fixed);
-  Fixed(int const integer);
-  Fixed(float const floatNum);
-  ~Fixed(void);
+  Fixed();
+  Fixed(const Fixed &other);
+  Fixed(const int n);
+  Fixed(const float f);
+  ~Fixed();
 
-  Fixed &operator=(Fixed const &fixed);
+  Fixed &operator=(const Fixed &other);
 
-  int getRawBits(void) const;
-  void setRawBits(int const raw);
+  int getRawBits() const;
+  void setRawBits(int raw);
 
-  float toFloat(void) const;
-  int toInt(void) const;
+  float toFloat() const;
+  int toInt() const;
 
-protected:
+  // comparison
+  bool operator>(const Fixed &other) const;
+  bool operator<(const Fixed &other) const;
+  bool operator>=(const Fixed &other) const;
+  bool operator<=(const Fixed &other) const;
+  bool operator==(const Fixed &other) const;
+  bool operator!=(const Fixed &other) const;
+
+  // arithmetic
+  Fixed operator+(const Fixed &other) const;
+  Fixed operator-(const Fixed &other) const;
+  Fixed operator*(const Fixed &other) const;
+  Fixed operator/(const Fixed &other) const;
+
+  // increment / decrement
+  Fixed &operator++();   // pre-increment
+  Fixed operator++(int); // post-increment
+  Fixed &operator--();   // pre-decrement
+  Fixed operator--(int); // post-decrement
+
+  // min / max
+  static Fixed &min(Fixed &a, Fixed &b);
+  static const Fixed &min(const Fixed &a, const Fixed &b);
+  static Fixed &max(Fixed &a, Fixed &b);
+  static const Fixed &max(const Fixed &a, const Fixed &b);
+
 private:
-  static const int nbFractionalBits = 8;
-  int rawBits;
+  int _value;
+  static const int _fractionalBits;
 };
 
-#endif
+std::ostream &operator<<(std::ostream &os, const Fixed &f);
+
+#endif // FIXED_HPP

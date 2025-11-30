@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:08:07 by yoshin            #+#    #+#             */
-/*   Updated: 2025/11/27 14:08:07 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/11/30 19:16:12 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* Include stdint types for int64_t (C++98 compatible via cstdlib/climits) */
 #ifdef __cplusplus
-  #include <climits>
+#include <climits>
 #endif
 
 /* Initialize static member - must be defined outside the class */
@@ -27,7 +27,9 @@ const int Fixed::_fractionalBits = 8;
  * Initializes the fixed-point value to 0.
  * Uses member initializer list (C++98 style).
  */
-Fixed::Fixed() : _value(0) {}
+Fixed::Fixed() : _value(0) {
+  std::cout << "Default constructor called" << std::endl;
+}
 
 /*
  * Fixed::Fixed - Copy constructor
@@ -36,7 +38,9 @@ Fixed::Fixed() : _value(0) {}
  * Creates a new Fixed object by copying the raw value from another.
  * Uses member initializer list for efficiency.
  */
-Fixed::Fixed(const Fixed &other) : _value(other._value) {}
+Fixed::Fixed(const Fixed &other) : _value(other._value) {
+  std::cout << "Copy constructor called" << std::endl;
+}
 
 /*
  * Fixed::Fixed - Integer constructor
@@ -46,8 +50,10 @@ Fixed::Fixed(const Fixed &other) : _value(other._value) {}
  * Left shift by _fractionalBits (8) effectively multiplies by 256,
  * allocating 8 bits for the fractional part.
  */
-Fixed::Fixed(const int n) { 
-  _value = n << _fractionalBits; 
+Fixed::Fixed(const int n) {
+  std::cout << "Int constructor called" << std::endl;
+
+  _value = n << _fractionalBits;
 }
 
 /*
@@ -62,6 +68,7 @@ Fixed::Fixed(const int n) {
  * This allows storing decimal values in integer format.
  */
 Fixed::Fixed(const float f) {
+  std::cout << "Float constructor called" << std::endl;
   _value = static_cast<int>(roundf(f * (1 << _fractionalBits)));
 }
 
@@ -70,7 +77,7 @@ Fixed::Fixed(const float f) {
  *
  * Default destructor, no special cleanup needed as we use primitive types.
  */
-Fixed::~Fixed() {}
+Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
 /*
  * Fixed::operator= - Copy assignment operator
@@ -82,6 +89,7 @@ Fixed::~Fixed() {}
  * Return: Reference to this object for chained assignments
  */
 Fixed &Fixed::operator=(const Fixed &other) {
+  std::cout << "Copy assignment operator called" << std::endl;
   if (this != &other) {
     _value = other._value;
   }
@@ -95,8 +103,9 @@ Fixed &Fixed::operator=(const Fixed &other) {
  *
  * Return: The raw fixed-point value
  */
-int Fixed::getRawBits() const { 
-  return _value; 
+int Fixed::getRawBits() const {
+  std::cout << "getRawBits member function called" << std::endl;
+  return _value;
 }
 
 /*
@@ -105,9 +114,7 @@ int Fixed::getRawBits() const {
  *
  * Directly sets the internal integer representation.
  */
-void Fixed::setRawBits(int raw) { 
-  _value = raw; 
-}
+void Fixed::setRawBits(int raw) { _value = raw; }
 
 /*
  * Fixed::toFloat - Converts fixed-point to floating-point
@@ -130,9 +137,7 @@ float Fixed::toFloat() const {
  *
  * Return: The integer part of the fixed-point value
  */
-int Fixed::toInt() const { 
-  return _value >> _fractionalBits; 
-}
+int Fixed::toInt() const { return _value >> _fractionalBits; }
 
 /*
  * Comparison operators
@@ -222,8 +227,8 @@ Fixed Fixed::operator-(const Fixed &other) const {
 Fixed Fixed::operator*(const Fixed &other) const {
   Fixed r;
   /* Use long long to avoid overflow during multiplication */
-  long long tmp = static_cast<long long>(_value) * 
-                  static_cast<long long>(other._value);
+  long long tmp =
+      static_cast<long long>(_value) * static_cast<long long>(other._value);
   /* Right shift to remove extra fractional bits */
   tmp = tmp >> _fractionalBits;
   r._value = static_cast<int>(tmp);
@@ -246,7 +251,7 @@ Fixed Fixed::operator/(const Fixed &other) const {
   /* Shift numerator left to preserve precision */
   long long num = (static_cast<long long>(_value) << _fractionalBits);
   long long denom = other._value;
-  
+
   /* Guard against division by zero */
   if (denom == 0) {
     /* Return maximum or minimum value based on sign */
@@ -331,9 +336,7 @@ Fixed Fixed::operator--(int) {
  *
  * Return: Reference to the smaller value
  */
-Fixed &Fixed::min(Fixed &a, Fixed &b) { 
-  return (a < b) ? a : b; 
-}
+Fixed &Fixed::min(Fixed &a, Fixed &b) { return (a < b) ? a : b; }
 
 /*
  * Fixed::min - Returns the smaller of two Fixed values (const version)
@@ -353,9 +356,7 @@ const Fixed &Fixed::min(const Fixed &a, const Fixed &b) {
  *
  * Return: Reference to the larger value
  */
-Fixed &Fixed::max(Fixed &a, Fixed &b) { 
-  return (a > b) ? a : b; 
-}
+Fixed &Fixed::max(Fixed &a, Fixed &b) { return (a > b) ? a : b; }
 
 /*
  * Fixed::max - Returns the larger of two Fixed values (const version)

@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:08:05 by yoshin            #+#    #+#             */
-/*   Updated: 2025/11/27 14:08:05 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/11/30 19:19:14 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ public:
   Fixed(const Fixed &other);
   Fixed(const int n);
   Fixed(const float f);
-  ~Fixed();
-
   Fixed &operator=(const Fixed &other);
+  ~Fixed();
 
   int getRawBits() const;
   void setRawBits(int raw);

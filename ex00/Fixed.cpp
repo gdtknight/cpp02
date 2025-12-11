@@ -6,17 +6,13 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:08:07 by yoshin            #+#    #+#             */
-/*   Updated: 2025/11/30 19:06:04 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/12/11 13:28:12 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 #include <cmath>
-
-/* Include stdint types for int64_t (C++98 compatible via cstdlib/climits) */
-#ifdef __cplusplus
 #include <climits>
-#endif
 
 /* Initialize static member - must be defined outside the class */
 const int Fixed::_fractionalBits = 8;

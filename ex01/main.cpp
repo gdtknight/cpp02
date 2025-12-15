@@ -40,19 +40,22 @@
 
 #include <iostream>
 
+/* Fixed 클래스의 타입 변환 기능 테스트 */
 int main(void) {
-  Fixed a;
-  Fixed const b(10);
-  Fixed const c(42.42f);
-  Fixed const d(b);
+  Fixed a;                      /* 기본 생성자 */
+  Fixed const b(10);            /* 정수 생성자 */
+  Fixed const c(42.42f);        /* 부동 소수점 생성자 */
+  Fixed const d(b);             /* 복사 생성자 */
 
-  a = Fixed(1234.4321f);
+  a = Fixed(1234.4321f);        /* 복사 대입 연산자 */
 
+  /* float 형태로 출력 */
   std::cout << "a is " << a << std::endl;
   std::cout << "b is " << b << std::endl;
   std::cout << "c is " << c << std::endl;
   std::cout << "d is " << d << std::endl;
 
+  /* 정수로 변환하여 출력 */
   std::cout << "a is " << a.toInt() << " as integer" << std::endl;
   std::cout << "b is " << b.toInt() << " as integer" << std::endl;
   std::cout << "c is " << c.toInt() << " as integer" << std::endl;

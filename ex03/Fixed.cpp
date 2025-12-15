@@ -13,12 +13,12 @@
 #include "Fixed.hpp"
 #include <cmath>
 
-/* Include stdint types for int64_t (C++98 compatible via cstdlib/climits) */
+/* int64_t를 위한 stdint 타입 포함 (cstdlib/climits를 통한 C++98 호환) */
 #ifdef __cplusplus
-  #include <climits>
+#include <climits>
 #endif
 
-/* Initialize static member - must be defined outside the class */
+/* 정적 멤버 초기화 - 클래스 외부에서 정의해야 함 */
 const int Fixed::_fractionalBits = 8;
 
 /*
@@ -46,9 +46,7 @@ Fixed::Fixed(const Fixed &other) : _value(other._value) {}
  * Left shift by _fractionalBits (8) effectively multiplies by 256,
  * allocating 8 bits for the fractional part.
  */
-Fixed::Fixed(const int n) { 
-  _value = n << _fractionalBits; 
-}
+Fixed::Fixed(const int n) { _value = n << _fractionalBits; }
 
 /*
  * Fixed::Fixed - Float constructor
@@ -95,9 +93,7 @@ Fixed &Fixed::operator=(const Fixed &other) {
  *
  * Return: The raw fixed-point value
  */
-int Fixed::getRawBits() const { 
-  return _value; 
-}
+int   Fixed::getRawBits() const { return _value; }
 
 /*
  * Fixed::setRawBits - Sets the raw fixed-point value
@@ -105,9 +101,7 @@ int Fixed::getRawBits() const {
  *
  * Directly sets the internal integer representation.
  */
-void Fixed::setRawBits(int raw) { 
-  _value = raw; 
-}
+void  Fixed::setRawBits(int raw) { _value = raw; }
 
 /*
  * Fixed::toFloat - Converts fixed-point to floating-point
@@ -130,9 +124,7 @@ float Fixed::toFloat() const {
  *
  * Return: The integer part of the fixed-point value
  */
-int Fixed::toInt() const { 
-  return _value >> _fractionalBits; 
-}
+int  Fixed::toInt() const { return _value >> _fractionalBits; }
 
 /*
  * Comparison operators
@@ -220,12 +212,12 @@ Fixed Fixed::operator-(const Fixed &other) const {
  * Return: New Fixed object containing the product
  */
 Fixed Fixed::operator*(const Fixed &other) const {
-  Fixed r;
+  Fixed     r;
   /* Use long long to avoid overflow during multiplication */
-  long long tmp = static_cast<long long>(_value) * 
-                  static_cast<long long>(other._value);
+  long long tmp =
+      static_cast<long long>(_value) * static_cast<long long>(other._value);
   /* Right shift to remove extra fractional bits */
-  tmp = tmp >> _fractionalBits;
+  tmp      = tmp >> _fractionalBits;
   r._value = static_cast<int>(tmp);
   return r;
 }
@@ -242,18 +234,18 @@ Fixed Fixed::operator*(const Fixed &other) const {
  * Return: New Fixed object containing the quotient
  */
 Fixed Fixed::operator/(const Fixed &other) const {
-  Fixed r;
+  Fixed     r;
   /* Shift numerator left to preserve precision */
-  long long num = (static_cast<long long>(_value) << _fractionalBits);
+  long long num   = (static_cast<long long>(_value) << _fractionalBits);
   long long denom = other._value;
-  
+
   /* Guard against division by zero */
   if (denom == 0) {
     /* Return maximum or minimum value based on sign */
     r._value = (num >= 0) ? INT_MAX : INT_MIN;
   } else {
     long long tmp = num / denom;
-    r._value = static_cast<int>(tmp);
+    r._value      = static_cast<int>(tmp);
   }
   return r;
 }
@@ -331,9 +323,7 @@ Fixed Fixed::operator--(int) {
  *
  * Return: Reference to the smaller value
  */
-Fixed &Fixed::min(Fixed &a, Fixed &b) { 
-  return (a < b) ? a : b; 
-}
+Fixed       &Fixed::min(Fixed &a, Fixed &b) { return (a < b) ? a : b; }
 
 /*
  * Fixed::min - Returns the smaller of two Fixed values (const version)
@@ -353,9 +343,7 @@ const Fixed &Fixed::min(const Fixed &a, const Fixed &b) {
  *
  * Return: Reference to the larger value
  */
-Fixed &Fixed::max(Fixed &a, Fixed &b) { 
-  return (a > b) ? a : b; 
-}
+Fixed       &Fixed::max(Fixed &a, Fixed &b) { return (a > b) ? a : b; }
 
 /*
  * Fixed::max - Returns the larger of two Fixed values (const version)

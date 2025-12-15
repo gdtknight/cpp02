@@ -6,7 +6,7 @@
 /*   By: yoshin <yoshin@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:08:05 by yoshin            #+#    #+#             */
-/*   Updated: 2025/11/27 14:08:05 by yoshin           ###   ########.fr       */
+/*   Updated: 2025/11/30 19:19:14 by yoshin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,33 @@
 
 #include <iostream>
 
+/*
+ * Fixed - 고정 소수점 숫자를 나타내는 클래스
+ *
+ * 부동 소수점 하드웨어 없이 소수 값을 저장하기 위한
+ * 고정 소수점 숫자 표현을 구현합니다.
+ *
+ * 형식: 24비트 정수부 + 8비트 소수부 (총 32비트)
+ */
 class Fixed {
 public:
-  Fixed();
-  Fixed(const Fixed &other);
-  Fixed(const int n);
-  Fixed(const float f);
-  ~Fixed();
+  /* 생성자 */
+  Fixed();                          /* 기본 생성자 */
+  Fixed(const Fixed &other);        /* 복사 생성자 */
+  Fixed(const int n);               /* 정수 생성자 */
+  Fixed(const float f);             /* 부동 소수점 생성자 */
+  Fixed &operator=(const Fixed &other);  /* 복사 대입 연산자 */
+  ~Fixed();                         /* 소멸자 */
 
-  Fixed &operator=(const Fixed &other);
-
+  /* 원시 값 접근 */
   int getRawBits() const;
   void setRawBits(int raw);
 
+  /* 타입 변환 */
   float toFloat() const;
   int toInt() const;
 
-  // comparison
+  /* 비교 연산자 */
   bool operator>(const Fixed &other) const;
   bool operator<(const Fixed &other) const;
   bool operator>=(const Fixed &other) const;
@@ -39,29 +49,30 @@ public:
   bool operator==(const Fixed &other) const;
   bool operator!=(const Fixed &other) const;
 
-  // arithmetic
+  /* 산술 연산자 */
   Fixed operator+(const Fixed &other) const;
   Fixed operator-(const Fixed &other) const;
   Fixed operator*(const Fixed &other) const;
   Fixed operator/(const Fixed &other) const;
 
-  // increment / decrement
-  Fixed &operator++();   // pre-increment
-  Fixed operator++(int); // post-increment
-  Fixed &operator--();   // pre-decrement
-  Fixed operator--(int); // post-decrement
+  /* 증감 연산자 */
+  Fixed &operator++();   /* 전위 증가 */
+  Fixed operator++(int); /* 후위 증가 */
+  Fixed &operator--();   /* 전위 감소 */
+  Fixed operator--(int); /* 후위 감소 */
 
-  // min / max
+  /* 최소/최대 정적 함수 */
   static Fixed &min(Fixed &a, Fixed &b);
   static const Fixed &min(const Fixed &a, const Fixed &b);
   static Fixed &max(Fixed &a, Fixed &b);
   static const Fixed &max(const Fixed &a, const Fixed &b);
 
 private:
-  int _value;
-  static const int _fractionalBits;
+  int _value;                      /* 고정 소수점 값의 원시 정수 표현 */
+  static const int _fractionalBits; /* 소수부에 사용되는 비트 수 */
 };
 
+/* 스트림 삽입 연산자 */
 std::ostream &operator<<(std::ostream &os, const Fixed &f);
 
 #endif // FIXED_HPP
